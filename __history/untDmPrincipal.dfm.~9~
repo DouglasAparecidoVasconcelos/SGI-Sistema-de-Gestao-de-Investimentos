@@ -1,0 +1,102 @@
+object DmPrincipal: TDmPrincipal
+  OldCreateOrder = False
+  Height = 441
+  Width = 538
+  object FDConnection1: TFDConnection
+    ConnectionName = 'mssqlconnection'
+    Params.Strings = (
+      'DriverID=MSSQL'
+      'Address=localhost\SQLEXPRESS'
+      'Database=DBDELPHI'
+      'Password=masterkey'
+      'User_Name=teste')
+    Connected = True
+    LoginPrompt = False
+    Left = 32
+    Top = 8
+  end
+  object cdsControleFinanceiro: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspControleFinanceiro'
+    OnNewRecord = cdsControleFinanceiroNewRecord
+    Left = 88
+    Top = 232
+    object cdsControleFinanceiroID_CONTROLE_FINANCEIRO: TAutoIncField
+      FieldName = 'ID_CONTROLE_FINANCEIRO'
+      ProviderFlags = [pfInUpdate, pfInKey]
+      ReadOnly = True
+    end
+    object cdsControleFinanceiroDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 1000
+    end
+    object cdsControleFinanceiroVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      ProviderFlags = [pfInUpdate]
+      Precision = 18
+      Size = 0
+    end
+    object cdsControleFinanceiroDATA: TDateField
+      FieldName = 'DATA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsControleFinanceiroDATA_INC: TSQLTimeStampField
+      FieldName = 'DATA_INC'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsControleFinanceiroTIPO: TStringField
+      FieldName = 'TIPO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 10
+    end
+  end
+  object dspControleFinanceiro: TDataSetProvider
+    DataSet = sqlControleFinanceiro
+    Options = [poIncFieldProps, poAutoRefresh, poPropogateChanges, poAllowCommandText, poUseQuoteChar]
+    Left = 88
+    Top = 168
+  end
+  object sqlControleFinanceiro: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT * FROM CONTROLE_FINANCEIRO')
+    Left = 88
+    Top = 96
+    object sqlControleFinanceiroID_CONTROLE_FINANCEIRO: TFDAutoIncField
+      FieldName = 'ID_CONTROLE_FINANCEIRO'
+      Origin = 'ID_CONTROLE_FINANCEIRO'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlControleFinanceiroDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Origin = 'DESCRICAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 1000
+    end
+    object sqlControleFinanceiroVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      ProviderFlags = [pfInUpdate]
+      Precision = 18
+      Size = 0
+    end
+    object sqlControleFinanceiroDATA: TDateField
+      FieldName = 'DATA'
+      Origin = 'DATA'
+    end
+    object sqlControleFinanceiroDATA_INC: TSQLTimeStampField
+      FieldName = 'DATA_INC'
+      Origin = 'DATA_INC'
+    end
+    object sqlControleFinanceiroTIPO: TStringField
+      FieldName = 'TIPO'
+      Origin = 'TIPO'
+      FixedChar = True
+      Size = 10
+    end
+  end
+end

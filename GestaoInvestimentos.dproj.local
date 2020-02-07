@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/01/28 22:48:17.000.634,=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2020/01/28 22:49:27.000.997,C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\untPrincipal.pas</Transaction>
+    <Transaction>2020/01/28 22:49:27.000.997,C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\untPrincipal.dfm</Transaction>
+    <Transaction>2020/01/28 22:49:49.000.688,=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2020/01/28 22:50:11.000.907,C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\untDmPrincipal.dfm</Transaction>
+    <Transaction>2020/01/28 22:50:11.000.907,C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\untDmPrincipal.pas</Transaction>
+    <Transaction>2020/01/29 20:31:04.000.446,C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\Project1.dproj</Transaction>
+    <Transaction>2020/02/02 00:33:17.000.499,=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\Unit1.pas</Transaction>
+    <Transaction>2020/02/02 11:05:39.000.000,C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\GestaoInvestimentos.dproj=C:\Users\Douglas Vasconcelos\Documents\Embarcadero\Studio\Projects\PROJECT1\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
