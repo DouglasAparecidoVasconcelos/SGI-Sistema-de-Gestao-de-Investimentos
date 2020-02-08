@@ -1,0 +1,304 @@
+unit untCadFluxoFinanceiro;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Datasnap.DBClient, System.DateUtils;
+
+type
+  TfrmCadFluxoFinanceiro = class(TForm)
+    Panel1: TPanel;
+    btnAtualizar: TButton;
+    PageControl1: TPageControl;
+    tbsControleFinanceiro: TTabSheet;
+    Label3: TLabel;
+    lblSoma: TLabel;
+    dbGridControleFinanceiro: TDBGrid;
+    GroupBox3: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    dtpickerDataInicial: TDateTimePicker;
+    dtpickerDataFinal: TDateTimePicker;
+    btnFiltrar: TButton;
+    chkFiltraDespesa: TCheckBox;
+    chkFiltraReceita: TCheckBox;
+    btnExcluir: TButton;
+    btnIncluir: TButton;
+    btnAlterar: TButton;
+    btnCancelar: TButton;
+    btnSalvar: TButton;
+    GroupBox1: TGroupBox;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    datControleFinanceiro: TDataSource;
+    procedure dbGridControleFinanceiroTitleClick(Column: TColumn);
+    procedure FormShow(Sender: TObject);
+    procedure btnFiltrarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure dbGridControleFinanceiroKeyPress(Sender: TObject; var Key: Char);
+    procedure dbGridControleFinanceiroKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dbGridControleFinanceiroDrawColumnCell(Sender: TObject;
+      const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure controlaBotoes;
+    procedure filtraCds;
+    procedure pintaFonte(soma : Float64);
+    function soma : Float64;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadFluxoFinanceiro: TfrmCadFluxoFinanceiro;
+
+implementation
+
+uses
+  untDmCadFluxoFinanceiro;
+
+{$R *.dfm}
+
+procedure TfrmCadFluxoFinanceiro.btnAtualizarClick(Sender: TObject);
+begin
+  DmCadFluxoFinanceiro.cdsControleFinanceiro.Refresh;
+  btnFiltrarClick(Sender);
+end;
+
+procedure TfrmCadFluxoFinanceiro.btnCancelarClick(Sender: TObject);
+begin
+  DmCadFluxoFinanceiro.cdsControleFinanceiro.Cancel;
+  DmCadFluxoFinanceiro.cdsControleFinanceiro.CancelUpdates;
+  controlaBotoes;
+end;
+
+procedure TfrmCadFluxoFinanceiro.btnExcluirClick(Sender: TObject);
+begin
+  if Application.MessageBox('Tem certeza de que deseja EXCLUIR o movimento selecionado?','SGI - Sistema de Gestão de Investientos',MB_YESNOCANCEL+MB_ICONWARNING) = ID_YES then
+  begin
+    DmCadFluxoFinanceiro.cdsControleFinanceiro.Delete;
+    DmCadFluxoFinanceiro.cdsControleFinanceiro.ApplyUpdates(0);
+  end
+  else
+  begin
+    Exit;
+  end;
+end;
+
+procedure TfrmCadFluxoFinanceiro.btnFiltrarClick(Sender: TObject);
+begin
+  filtraCds;
+  pintaFonte(soma);
+  lblSoma.Caption := FloatToStr(soma);
+end;
+
+procedure TfrmCadFluxoFinanceiro.btnIncluirClick(Sender: TObject);
+begin
+  DmCadFluxoFinanceiro.cdsControleFinanceiro.insert;
+  controlaBotoes;
+  DBEdit1.SetFocus;
+end;
+
+procedure TfrmCadFluxoFinanceiro.btnSalvarClick(Sender: TObject);
+begin
+   try
+   with DmCadFluxoFinanceiro do
+   begin
+      if StrToFloat(cdsControleFinanceiro.FieldByName('Valor').AsString) > 1 then
+      begin
+        cdsControleFinanceiroTIPO.AsString := 'R';
+      end
+      else
+      begin
+        cdsControleFinanceiroTIPO.AsString := 'D';
+      end;
+
+    cdsControleFinanceiro.Post;
+    cdsControleFinanceiro.ApplyUpdates(0);
+    cdsControleFinanceiro.Refresh;
+    end;
+    controlaBotoes;
+    btnAtualizarClick(Sender);
+
+    ShowMessage('Movimento cadatrado com Sucesso!');
+  except
+    ShowMessage('Erro ao cadastrar movimento');
+  end;
+end;
+
+procedure TfrmCadFluxoFinanceiro.controlaBotoes;
+begin
+  if DmCadFluxoFinanceiro.cdsControleFinanceiro.State in [dsEdit, dsInsert] then
+  begin
+    btnIncluir.Enabled   := False;
+    btnSalvar.Enabled    := True;
+    btnAlterar.Enabled   := False;
+    btnCancelar.Enabled  := True;
+    btnExcluir.Enabled   := False;
+  end
+  else
+  begin
+    btnIncluir.Enabled   := True;
+    btnSalvar.Enabled    := False;
+    btnAlterar.Enabled   := True;
+    btnCancelar.Enabled  := False;
+    btnExcluir.Enabled   := True;
+  end;
+
+end;
+
+procedure TfrmCadFluxoFinanceiro.dbGridControleFinanceiroDrawColumnCell(
+  Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  if DmCadFluxoFinanceiro.cdsControleFinanceiroTIPO.AsString = 'D' then
+    dbGridControleFinanceiro.Canvas.Brush.Color := clRed
+  else
+    dbGridControleFinanceiro.Canvas.Brush.Color := clGreen;
+
+  dbGridControleFinanceiro.DefaultDrawDataCell(Rect, Column.Field, State);
+end;
+
+procedure TfrmCadFluxoFinanceiro.dbGridControleFinanceiroKeyDown(
+  Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if key = 13 then
+    btnSalvar.SetFocus;
+end;
+
+procedure TfrmCadFluxoFinanceiro.dbGridControleFinanceiroKeyPress(
+  Sender: TObject; var Key: Char);
+begin
+  Key := UpCase(Key);
+end;
+
+procedure TfrmCadFluxoFinanceiro.dbGridControleFinanceiroTitleClick(
+  Column: TColumn);
+  var
+    indice: string;
+    existe: Boolean;
+clientdataset_idx: TClientDataSet;
+begin
+  clientdataset_idx := TClientDataSet(Column.Grid.DataSource.DataSet);
+
+   if clientdataset_idx.IndexFieldNames = Column.FieldName then
+   begin
+     indice := AnsiUpperCase(Column.FieldName+'_INV');
+
+     try
+      clientdataset_idx.IndexDefs.Find(indice);
+      existe := True;
+     except
+      existe := False;
+     end;
+
+    if not existe then
+      with clientdataset_idx.IndexDefs.AddIndexDef do
+      begin
+        Name := indice;
+        Fields := Column.FieldName;
+        Options := [ixDescending];
+      end;
+    clientdataset_idx.IndexName := indice;
+   end
+   else
+    clientdataset_idx.IndexFieldNames := Column.FieldName;
+end;
+
+procedure TfrmCadFluxoFinanceiro.filtraCds;
+begin
+  with  DmCadFluxoFinanceiro do
+  begin
+    cdsControleFinanceiro.Close;
+    cdsControleFinanceiro.Params[0].AsString := DateToStr(dtpickerDataInicial.DateTime);
+    cdsControleFinanceiro.Params[1].AsString := DateToStr(dtpickerDataFinal.DateTime);
+
+    if (chkFiltraReceita.Checked and chkFiltraDespesa.Checked) or ( not chkFiltraReceita.Checked and not chkFiltraDespesa.Checked) then
+    begin
+      cdsControleFinanceiro.Filtered := False;
+    end
+    else
+    begin
+
+      if chkFiltraReceita.Checked then
+      begin
+        cdsControleFinanceiro.Filtered := False;
+        cdsControleFinanceiro.Filter := 'TIPO = ''R'' ';
+        cdsControleFinanceiro.Filtered := True;
+      end;
+
+      if chkFiltraDespesa.Checked then
+      begin
+        cdsControleFinanceiro.Filtered := False;
+        cdsControleFinanceiro.Filter := 'TIPO = ''D'' ';
+        cdsControleFinanceiro.Filtered := True;
+      end;
+    end;
+
+
+    cdsControleFinanceiro.Open;
+  end;
+end;
+
+procedure TfrmCadFluxoFinanceiro.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  DmCadFluxoFinanceiro.cdsControleFinanceiro.Close;
+  FreeAndNil(DmCadFluxoFinanceiro);
+  FreeAndNil(frmCadFluxoFinanceiro);
+end;
+
+procedure TfrmCadFluxoFinanceiro.FormCreate(Sender: TObject);
+begin
+  if DmCadFluxoFinanceiro = nil then
+    DmCadFluxoFinanceiro := TDmCadFluxoFinanceiro.Create(Self);
+end;
+
+procedure TfrmCadFluxoFinanceiro.FormShow(Sender: TObject);
+begin
+  dtpickerDataInicial.DateTime := StartOfTheMonth(now);
+  dtpickerDataFinal.DateTime := EndOfTheMonth(now);
+  btnFiltrarClick(Sender);
+end;
+
+function TfrmCadFluxoFinanceiro.soma : Float64;
+var Vsoma : Double;
+begin
+  with DmCadFluxoFinanceiro do
+  begin
+    cdsControleFinanceiro.First;
+    Vsoma := 0;
+    while not cdsControleFinanceiro.Eof do
+    begin
+      Vsoma := Vsoma + StrToFloat(cdsControleFinanceiroVALOR.AsString);
+      cdsControleFinanceiro.Next;
+    end;
+  end;
+
+   result := Vsoma;
+
+end;
+
+procedure TfrmCadFluxoFinanceiro.pintaFonte(soma : Float64);
+begin
+  if soma >1 then
+    lblSoma.Font.Color := clGreen
+  else
+    lblSoma.Font.Color := clRed;
+end;
+
+end.
