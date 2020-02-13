@@ -110,6 +110,19 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="untDmCadFluxoFinanceiro.pas">
+            <Form>DmCadFluxoFinanceiro</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="untCadFluxoFinanceiro.pas">
+            <Form>frmCadFluxoFinanceiro</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="untLogin.pas">
+            <Form>frmLogin</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

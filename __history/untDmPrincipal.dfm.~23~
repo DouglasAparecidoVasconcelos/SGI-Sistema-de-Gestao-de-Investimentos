@@ -1,0 +1,82 @@
+object DmPrincipal: TDmPrincipal
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 441
+  Width = 538
+  object FDConnection1: TFDConnection
+    ConnectionName = 'mssqlconnection'
+    Params.Strings = (
+      'DriverID=MSSQL'
+      'Address=localhost\SQLEXPRESS'
+      'Database=DBDELPHI-PROTOTIPO'
+      'Password=masterkey'
+      'User_Name=teste'
+      'OSAuthent=No')
+    Connected = True
+    LoginPrompt = False
+    Left = 32
+    Top = 8
+  end
+  object cdsLocUsuario: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'DATA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'DATA_FIN'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspLocUsuario'
+    Left = 160
+    Top = 160
+  end
+  object dspLocUsuario: TDataSetProvider
+    DataSet = sqlLocUsuario
+    Options = [poIncFieldProps, poAutoRefresh, poPropogateChanges, poAllowCommandText, poUseQuoteChar]
+    UpdateMode = upWhereKeyOnly
+    Left = 160
+    Top = 96
+  end
+  object sqlLocUsuario: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT * '
+      'FROM USUARIO'
+      'ORDER BY NOME_COMPLETO')
+    Left = 160
+    Top = 40
+    object sqlLocUsuarioID_USUARIO: TFDAutoIncField
+      FieldName = 'ID_USUARIO'
+      Origin = 'ID_USUARIO'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlLocUsuarioNOME_COMPLETO: TStringField
+      FieldName = 'NOME_COMPLETO'
+      Origin = 'NOME_COMPLETO'
+      Size = 1000
+    end
+    object sqlLocUsuarioDATA_NASC: TDateField
+      FieldName = 'DATA_NASC'
+      Origin = 'DATA_NASC'
+    end
+    object sqlLocUsuarioCPF: TStringField
+      FieldName = 'CPF'
+      Origin = 'CPF'
+      Size = 11
+    end
+    object sqlLocUsuarioID_CONTATO: TIntegerField
+      FieldName = 'ID_CONTATO'
+      Origin = 'ID_CONTATO'
+    end
+    object sqlLocUsuarioLOGIN: TStringField
+      FieldName = 'LOGIN'
+      Origin = 'LOGIN'
+      Size = 100
+    end
+  end
+end

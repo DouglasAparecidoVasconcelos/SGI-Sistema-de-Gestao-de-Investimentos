@@ -13,6 +13,21 @@ uses
 type
   TDmPrincipal = class(TDataModule)
     FDConnection1: TFDConnection;
+    cdsLocUsuario: TClientDataSet;
+    dspLocUsuario: TDataSetProvider;
+    sqlLocUsuario: TFDQuery;
+    sqlLocUsuarioID_USUARIO: TFDAutoIncField;
+    sqlLocUsuarioNOME_COMPLETO: TStringField;
+    sqlLocUsuarioDATA_NASC: TDateField;
+    sqlLocUsuarioCPF: TStringField;
+    sqlLocUsuarioID_CONTATO: TIntegerField;
+    sqlLocUsuarioLOGIN: TStringField;
+    cdsLocUsuarioID_USUARIO: TAutoIncField;
+    cdsLocUsuarioNOME_COMPLETO: TStringField;
+    cdsLocUsuarioDATA_NASC: TDateField;
+    cdsLocUsuarioCPF: TStringField;
+    cdsLocUsuarioID_CONTATO: TIntegerField;
+    cdsLocUsuarioLOGIN: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

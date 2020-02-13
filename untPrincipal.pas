@@ -7,15 +7,18 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls,DateUtils, Datasnap.DBClient,
   Vcl.Mask, Vcl.DBCtrls, System.IniFiles, Vcl.ToolWin, Vcl.ActnMan,
-  Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.Menus;
+  Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.Menus, Vcl.Imaging.jpeg;
 
 type
   TfrmPrincipal = class(TForm)
     MainMenu: TMainMenu;
     mmFluxoFinanceiro: TMenuItem;
     Image1: TImage;
+    mmCadastros: TMenuItem;
+    mmUsuario: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure mmFluxoFinanceiroClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,7 +34,14 @@ implementation
 
 {$R *.dfm}
 
-uses untDmPrincipal, untCadFluxoFinanceiro;
+uses untDmPrincipal, untCadFluxoFinanceiro, untLogin;
+
+procedure TfrmPrincipal.FormShow(Sender: TObject);
+begin
+  if frmLogin = nil then
+    frmLogin:= TfrmLogin.Create(nil);
+  frmLogin.ShowModal;
+end;
 
 procedure TfrmPrincipal.lerIni;
 var

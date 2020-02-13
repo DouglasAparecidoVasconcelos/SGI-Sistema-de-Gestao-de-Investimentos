@@ -3,7 +3,10 @@ program GestaoInvestimentos;
 uses
   Vcl.Forms,
   untPrincipal in 'untPrincipal.pas' {frmPrincipal},
-  untDmPrincipal in 'untDmPrincipal.pas' {DmPrincipal: TDataModule};
+  untDmPrincipal in 'untDmPrincipal.pas' {DmPrincipal: TDataModule},
+  untDmCadFluxoFinanceiro in 'untDmCadFluxoFinanceiro.pas' {DmCadFluxoFinanceiro: TDataModule},
+  untCadFluxoFinanceiro in 'untCadFluxoFinanceiro.pas' {frmCadFluxoFinanceiro},
+  untLogin in 'untLogin.pas' {frmLogin};
 
 {$R *.res}
 

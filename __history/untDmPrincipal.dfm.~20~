@@ -1,0 +1,84 @@
+object DmPrincipal: TDmPrincipal
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 441
+  Width = 538
+  object FDConnection1: TFDConnection
+    ConnectionName = 'mssqlconnection'
+    Params.Strings = (
+      'DriverID=MSSQL'
+      'Address=localhost\SQLEXPRESS'
+      'Database=DBDELPHI-PROTOTIPO'
+      'Password=masterkey'
+      'User_Name=teste'
+      'OSAuthent=No')
+    LoginPrompt = False
+    Left = 32
+    Top = 8
+  end
+  object cdsLocUsuario: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'DATA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'DATA_FIN'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspLocUsuario'
+    Left = 160
+    Top = 160
+  end
+  object dspLocUsuario: TDataSetProvider
+    DataSet = sqlLocUsuario
+    Options = [poIncFieldProps, poAutoRefresh, poPropogateChanges, poAllowCommandText, poUseQuoteChar]
+    UpdateMode = upWhereKeyOnly
+    Left = 160
+    Top = 96
+  end
+  object sqlLocUsuario: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT * '
+      'FROM USUARIO'
+      'ORDER BY NOME_COMPLETO')
+    Left = 160
+    Top = 24
+    object sqlLocUsuarioID_CONTROLE_FINANCEIRO: TFDAutoIncField
+      FieldName = 'ID_CONTROLE_FINANCEIRO'
+      Origin = 'ID_CONTROLE_FINANCEIRO'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlLocUsuarioDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Origin = 'DESCRICAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 1000
+    end
+    object sqlLocUsuarioDATA: TDateField
+      FieldName = 'DATA'
+      Origin = 'DATA'
+    end
+    object sqlLocUsuarioVALOR: TFloatField
+      DisplayLabel = 'Valor'
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sqlLocUsuarioDATA_INC: TSQLTimeStampField
+      FieldName = 'DATA_INC'
+      Origin = 'DATA_INC'
+    end
+    object sqlLocUsuarioTIPO: TStringField
+      FieldName = 'TIPO'
+      Origin = 'TIPO'
+      FixedChar = True
+      Size = 10
+    end
+  end
+end
