@@ -4,7 +4,7 @@ object frmLogin: TfrmLogin
   BorderIcons = []
   Caption = 'SGI - Login'
   ClientHeight = 255
-  ClientWidth = 192
+  ClientWidth = 183
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +20,7 @@ object frmLogin: TfrmLogin
   object grplogin: TGroupBox
     Left = 0
     Top = 0
-    Width = 192
+    Width = 183
     Height = 255
     Align = alClient
     Caption = '::.Login.::'
@@ -28,7 +28,6 @@ object frmLogin: TfrmLogin
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
-    ExplicitWidth = 183
     ExplicitHeight = 227
     object Label1: TLabel
       Left = 69
@@ -45,7 +44,7 @@ object frmLogin: TfrmLogin
       Caption = 'Senha:'
     end
     object Image1: TImage
-      Left = 45
+      Left = 51
       Top = 16
       Width = 82
       Height = 68
@@ -272,13 +271,16 @@ object frmLogin: TfrmLogin
       Width = 153
       Height = 21
       TabOrder = 0
+      OnKeyDown = editUserKeyDown
     end
     object editSenha: TEdit
       Left = 13
       Top = 154
       Width = 153
       Height = 21
+      PasswordChar = '*'
       TabOrder = 1
+      OnKeyDown = editSenhaKeyDown
     end
     object btnLogin: TButton
       Left = 13

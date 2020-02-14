@@ -22,6 +22,10 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure editUserKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure editSenhaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     function realizaLogin : Boolean;
@@ -65,12 +69,35 @@ end;
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
 begin
   if realizaLogin then
+  begin
     frmLogin.Close;
+  end
+  else
+  begin
+    editUser.SetFocus;
+  end;
+
+
+
 end;
 
 procedure TfrmLogin.Button1Click(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TfrmLogin.editSenhaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = 13 then
+    btnLogin.SetFocus;
+end;
+
+procedure TfrmLogin.editUserKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = 13 then
+    editSenha.SetFocus;
 end;
 
 procedure TfrmLogin.FormCreate(Sender: TObject);

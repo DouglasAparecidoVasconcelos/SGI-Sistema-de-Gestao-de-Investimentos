@@ -256,7 +256,6 @@ begin
       end;
     end;
 
-
     cdsControleFinanceiro.Open;
   end;
 end;

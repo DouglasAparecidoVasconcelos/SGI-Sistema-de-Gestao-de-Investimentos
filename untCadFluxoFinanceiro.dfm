@@ -47,14 +47,9 @@ object frmCadFluxoFinanceiro: TfrmCadFluxoFinanceiro
     ActivePage = tbsControleFinanceiro
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 8
-    ExplicitWidth = 774
-    ExplicitHeight = 349
     object tbsControleFinanceiro: TTabSheet
       Caption = 'Controle Financeiro'
       ImageIndex = 1
-      ExplicitWidth = 766
-      ExplicitHeight = 321
       object Label3: TLabel
         Left = 106
         Top = 279
@@ -143,7 +138,6 @@ object frmCadFluxoFinanceiro: TfrmCadFluxoFinanceiro
         Align = alTop
         Caption = 'Filtros'
         TabOrder = 1
-        ExplicitWidth = 766
         object Label1: TLabel
           Left = 8
           Top = 17
@@ -267,7 +261,6 @@ object frmCadFluxoFinanceiro: TfrmCadFluxoFinanceiro
         Align = alTop
         Caption = 'Inserir  Movimento'
         TabOrder = 7
-        ExplicitWidth = 766
         object Label4: TLabel
           Left = 12
           Top = 22
